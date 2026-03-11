@@ -1,5 +1,5 @@
 # UMC Programming Projects
-This repository contains programming projects developed during my studies at **Universidade de Mogi das Cruzes (UMC)**.
+This repository contains programming projects developed during my studies at Universidade de Mogi das Cruzes (UMC).
 The goal of this repository is to document my learning process in different programming languages and software development concepts.
 
 ## Repository Structure
