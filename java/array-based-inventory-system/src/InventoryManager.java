@@ -10,17 +10,42 @@ public class InventoryManager {
     }
 
     // add product function
-    public void addProduct(Product p) {
+    public void addProduct(Product p, int id) {
         try {
+            // check if product is null
             if (p == null) {
-                throw new NullPointerException("Product is null!");
+                throw new NullPointerException("product is null");
             }
+
+            // validate id
+            if (id < 0) {
+                throw new IllegalArgumentException("id cannot be negative");
+            }
+
+            if (String.valueOf(id).length() > 8) {
+                throw new IllegalArgumentException("id cannot have more than 8 digits");
+            }
+
+            // check for duplicate id in inventory
+            for (Product existing : inventory) {
+                if (existing.id == id) {
+                    throw new IllegalArgumentException("id already exists in inventory");
+                }
+            }
+
+            // set the product's id
+            p.id = id;
+
+            // add product to inventory
             inventory.add(p);
-            System.out.println("> Product added!");
+            System.out.println("> product added successfully!");
+
         } catch (NullPointerException e) {
-            System.out.println("> Error: Cannot add null product!");
+            System.out.println("> error: cannot add null product!");
+        } catch (IllegalArgumentException e) {
+            System.out.println("> invalid product id: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("> Unexpected error while adding product: " + e.getMessage());
+            System.out.println("> unexpected error while adding product: " + e.getMessage());
         }
     }
 
@@ -46,7 +71,7 @@ public class InventoryManager {
             System.out.println("> Inventory List:");
             for (int i = 0; i < inventory.size(); i++) {
                 Product p = inventory.get(i);
-                System.out.println("> " + i + " | " + p.name + " | Qty: " + p.quantity + " | Price: $" + p.price + " | ID: " + p.id);
+                System.out.println("> " + i + " | " + p.name + " | Quantity: " + p.quantity + " | Price: $" + p.price + " | ID: " + p.id);
             }
         } catch (Exception e) {
             System.out.println("> Unexpected error while listing products: " + e.getMessage());
@@ -101,7 +126,7 @@ public class InventoryManager {
             boolean found = false;
             for (Product p : inventory) {
                 if (p.quantity <= threshold) {
-                    System.out.println(p.name + " | Qty: " + p.quantity);
+                    System.out.println(p.name + " | Quantity: " + p.quantity);
                     found = true;
                 }
             }

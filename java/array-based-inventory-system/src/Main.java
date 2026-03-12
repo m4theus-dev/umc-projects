@@ -84,12 +84,13 @@ public class Main {
                     switch (index2) {
                         case 1: // add product
                             // read product details
+                            int productId = readInt(scanner, "Enter the product ID: ");
                             String productName = readString(scanner, "\nEnter the product's name: ");
                             double productPrice = readDouble(scanner, "Enter the product's price: ");
                             int productQty = readInt(scanner, "Enter initial quantity: ");
                             // create product and add to inventory
                             Product newProduct = new Product(productName, productPrice, productQty);
-                            inventoryManager.addProduct(newProduct);
+                            inventoryManager.addProduct(newProduct, productId);
                             // wait for user before returning to product menu
                             waitForEnter(scanner);
                             break;
@@ -113,9 +114,33 @@ public class Main {
                 case 3:
                     // inventory monitoring page
                     System.out.println("\n> - Inventory Monitoring - <");
-                    inventoryManager.listProducts();
-                    // wait for user before returning to main menu
-                    waitForEnter(scanner);
+
+                    // mini menu for inventory monitoring
+                    System.out.println("\n> * OPTIONS *\n");
+                    System.out.println("> 1 | List all products");
+                    System.out.println("> 2 | Check low stock");
+                    System.out.println("> 3 | Back to Main Menu");
+
+                    index2 = readInt(scanner, "\nInput: ");
+
+                    switch (index2) {
+                        case 1: // list all products
+                            inventoryManager.listProducts();
+                            waitForEnter(scanner); // wait before returning
+                            break;
+
+                        case 2: // check low stock
+                            int threshold = readInt(scanner, "Enter stock threshold: ");
+                            inventoryManager.checkLowStock(threshold);
+                            waitForEnter(scanner); // wait before returning
+                            break;
+
+                        case 3: // back to main menu
+                            break;
+
+                        default:
+                            System.out.println("> Invalid option! Returning to main menu.");
+                    }
                     break;
 
                 case 4:
