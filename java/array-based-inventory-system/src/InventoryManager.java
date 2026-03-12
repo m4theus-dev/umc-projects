@@ -1,5 +1,6 @@
 // IMPORTS
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class InventoryManager {
     // dynamic product list
@@ -135,6 +136,96 @@ public class InventoryManager {
             System.out.println("> Error: " + e.getMessage());
         } catch (Exception e) {
             System.out.println("> Unexpected error while checking low stock: " + e.getMessage());
+        }
+    }
+
+    public void editProduct(int index, Scanner scanner) {
+        try {
+            // check if index is valid
+            if (index < 0 || index >= inventory.size()) {
+                System.out.println("> Invalid index!");
+                return;
+            }
+
+            Product p = inventory.get(index);
+
+            scanner.nextLine(); // consume leftover newline
+
+            // edit name
+            System.out.print("Enter new product name (leave blank to keep current: " + p.name + "): ");
+            String newName = scanner.nextLine().trim();
+            if (!newName.isEmpty()) {
+                p.name = newName; // update name
+            }
+
+            // edit price
+            System.out.print("Enter new product price (leave blank to keep current: " + p.price + "): ");
+            String priceInput = scanner.nextLine().trim();
+            if (!priceInput.isEmpty()) {
+                try {
+                    double newPrice = Double.parseDouble(priceInput);
+                    if (newPrice < 0) {
+                        System.out.println("> Price cannot be negative, keeping previous value.");
+                    } else {
+                        p.price = newPrice;
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("> Invalid input, keeping previous price.");
+                }
+            }
+
+            // edit quantity
+            System.out.print("Enter new quantity (leave blank to keep current: " + p.quantity + "): ");
+            String qtyInput = scanner.nextLine().trim();
+            if (!qtyInput.isEmpty()) {
+                try {
+                    int newQty = Integer.parseInt(qtyInput);
+                    if (newQty < 0) {
+                        System.out.println("> Quantity cannot be negative, keeping previous value.");
+                    } else {
+                        p.quantity = newQty;
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("> Invalid input, keeping previous quantity.");
+                }
+            }
+
+            // edit id
+            System.out.print("Enter new product ID (leave blank to keep current: " + p.id + "): ");
+            String idInput = scanner.nextLine().trim();
+            if (!idInput.isEmpty()) {
+                try {
+                    int newId = Integer.parseInt(idInput);
+
+                    // validate id
+                    if (newId < 0) {
+                        System.out.println("> ID cannot be negative, keeping previous value.");
+                    } else if (String.valueOf(newId).length() > 8) {
+                        System.out.println("> ID cannot have more than 8 digits, keeping previous value.");
+                    } else {
+                        // check for duplicate id
+                        boolean duplicate = false;
+                        for (Product existing : inventory) {
+                            if (existing != p && existing.id == newId) {
+                                duplicate = true;
+                                break;
+                            }
+                        }
+                        if (duplicate) {
+                            System.out.println("> ID already exists, keeping previous value.");
+                        } else {
+                            p.id = newId; // update id
+                        }
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("> Invalid input, keeping previous ID.");
+                }
+            }
+
+            System.out.println("> Product updated successfully!");
+
+        } catch (Exception e) {
+            System.out.println("> Unexpected error while editing product: " + e.getMessage());
         }
     }
 }

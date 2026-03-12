@@ -1,5 +1,5 @@
 // array-based inventory system
-// v1.3
+// v1.4
 // @m4theus-dev
 
 // IMPORTS
@@ -76,16 +76,17 @@ public class Main {
                     System.out.println("\n> - Product Management - <");
                     System.out.println("\n> * OPTIONS *\n");
                     System.out.println("> 1 | Add Product");
-                    System.out.println("> 2 | Remove Product");
-                    System.out.println("> 3 | Back to Main Menu");
+                    System.out.println("> 2 | Edit Product");
+                    System.out.println("> 3 | Remove Product");
+                    System.out.println("> 4 | Back to Main Menu");
 
                     index2 = readInt(scanner, "\nInput: ");
 
                     switch (index2) {
                         case 1: // add product
                             // read product details
-                            int productId = readInt(scanner, "Enter the product ID: ");
-                            String productName = readString(scanner, "\nEnter the product's name: ");
+                            int productId = readInt(scanner, "\nEnter the product ID: ");
+                            String productName = readString(scanner, "Enter the product's name: ");
                             double productPrice = readDouble(scanner, "Enter the product's price: ");
                             int productQty = readInt(scanner, "Enter initial quantity: ");
                             // create product and add to inventory
@@ -95,7 +96,12 @@ public class Main {
                             waitForEnter(scanner);
                             break;
 
-                        case 2: // remove product
+                        case 2:
+                            int productIndex = readInt(scanner, "\nEnter product index to edit: ");
+                            inventoryManager.editProduct(productIndex, scanner);
+                            break;
+
+                        case 3: // remove product
                             inventoryManager.listProducts();
                             int removeIndex = readInt(scanner, "\nEnter product index to remove: ");
                             inventoryManager.removeProduct(removeIndex);
@@ -103,7 +109,7 @@ public class Main {
                             waitForEnter(scanner);
                             break;
 
-                        case 3: // back to main menu
+                        case 4: // back to main menu
                             break;
 
                         default:
