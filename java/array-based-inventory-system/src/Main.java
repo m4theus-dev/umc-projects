@@ -1,5 +1,5 @@
 // array-based inventory system
-// v1.2
+// v1.3
 // @m4theus-dev
 
 // IMPORTS
@@ -20,7 +20,7 @@ public class Main {
         // main loop for menu
         while (true) {
             // display main menu header
-            System.out.println("> - Array-Based Inventory System (v1.2) - <");
+            System.out.println("> - Array-Based Inventory System (v1.3) - <");
             System.out.println("> - Dev: m4theus-dev - <");
 
             // display pages
@@ -155,9 +155,7 @@ public class Main {
         }
     }
 
-    // ------------------------------
     // safe input methods
-    // ------------------------------
 
     // read integer safely from user
     public static int readInt(Scanner scanner, String prompt) {

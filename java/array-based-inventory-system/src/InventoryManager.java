@@ -16,12 +16,10 @@ public class InventoryManager {
             if (p == null) {
                 throw new NullPointerException("product is null");
             }
-
             // validate id
             if (id < 0) {
                 throw new IllegalArgumentException("id cannot be negative");
             }
-
             if (String.valueOf(id).length() > 8) {
                 throw new IllegalArgumentException("id cannot have more than 8 digits");
             }
