@@ -9,6 +9,7 @@ This project is a console-based application designed to practice fundamental pro
 * Adjust or set product quantity
 * List all products in the inventory
 * Inventory monitoring with low stock check (custom threshold)
+* Read, write, import and export data using .csv files
 * Simple command-line interface with multiple pages
 * Safe user input handling (`readInt`, `readDouble`, `readString`)
 * Wait-for-enter functionality before returning to menus
@@ -20,14 +21,23 @@ This project is a console-based application designed to practice fundamental pro
 
 ## Project Structure
 ```
-src
-└─ Main.java
-└─ InventoryManager.java
-└─ Product.java
+array-based-inventory-system
+├─ src
+│  ├─ Main.java
+│  ├─ InventoryManager.java
+│  ├─ Product.java
+│  └─ CSVReader.java
+│
+├─ saves
+│  └─ .gitkeep
+│
+├─ .gitignore
+└─ README.md
 ```
 
 
 ## Key Improvements
+* added file reading, writing, importing, exporting and writing for persistent data saves
 * implemented **safe input methods** to avoid crashes from invalid user input
 * centralized user input handling with `readInt`, `readDouble`, `readString`
 * added **adjust stock quantity** feature (can add or subtract from current stock)
@@ -36,7 +46,6 @@ src
 * improved **menu system** with subpages for stock management, product management, and inventory monitoring
 * added **press enter to return** prompts after viewing inventory or completing actions
 * added **check low stock** feature with custom threshold
-* added **clear, lowercase comments in english** throughout the code for readability
 * refactored repeated try-catch blocks into safe input functions
 
 ## How to Run
@@ -50,14 +59,14 @@ Or run directly using IntelliJ.
 ## Learning Goals
 This project was created to practice:
 * Java syntax and object-oriented programming
-* ArrayList usage instead of arrays
+* ArrayList usage
+* I/O with files
 * control flow and switch statements
 * safe and robust user input handling
 * designing a simple but organized console application
 * adding comments and documenting code for clarity
 
 ## Future Improvements
-* data persistence (saving and loading inventory from files)
 * more advanced inventory reporting (low stock alerts, sorting)
 * graphical user interface (frontend) for easier interaction
 * integration with REST APIs for external data or inventory management
