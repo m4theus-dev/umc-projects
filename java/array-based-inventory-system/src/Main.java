@@ -1,5 +1,5 @@
 // array-based inventory system
-// v1.5
+// v1.6
 // @m4theus-dev
 
 // IMPORTS
@@ -20,7 +20,7 @@ public class Main {
         // main loop for menu
         while (true) {
             // display main menu header
-            System.out.println("> - Array-Based Inventory System (v1.5) - <");
+            System.out.println("> - Array-Based Inventory System (v1.6) - <");
             System.out.println("> - Dev: m4theus-dev - <");
 
             // display pages

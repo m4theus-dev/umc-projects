@@ -1,6 +1,7 @@
 // IMPORTS
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.IOException;
 
 public class InventoryManager {
     // dynamic product list
@@ -10,12 +11,21 @@ public class InventoryManager {
         inventory = new ArrayList<>(); // creates the empty list
     }
 
-    // add product function
+    // private method to clear inventory
+    private void clearInventory() {
+        inventory.clear();
+    }
+
+    // add product
     public void addProduct(Product p, int id) {
         try {
             // check if product is null
             if (p == null) {
                 throw new NullPointerException("product is null");
+            }
+            // check for commas in string
+            if (p.name != null && p.name.contains(",")) {
+                throw new IllegalArgumentException("product name cannot contain commas");
             }
             // validate id
             if (id < 0) {
@@ -24,7 +34,6 @@ public class InventoryManager {
             if (String.valueOf(id).length() > 8) {
                 throw new IllegalArgumentException("id cannot have more than 8 digits");
             }
-
             // check for duplicate id in inventory
             for (Product existing : inventory) {
                 if (existing.id == id) {
@@ -37,14 +46,14 @@ public class InventoryManager {
 
             // add product to inventory
             inventory.add(p);
-            System.out.println("> product added successfully!");
+            System.out.println("> Product added successfully!");
 
         } catch (NullPointerException e) {
-            System.out.println("> error: cannot add null product!");
+            System.out.println("> Error: Cannot add null product!");
         } catch (IllegalArgumentException e) {
-            System.out.println("> invalid product id: " + e.getMessage());
+            System.out.println("> Invalid product ID: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("> unexpected error while adding product: " + e.getMessage());
+            System.out.println("> Unexpected error while adding product: " + e.getMessage());
         }
     }
 
@@ -190,42 +199,42 @@ public class InventoryManager {
                 }
             }
 
-            // edit id
-            System.out.print("Enter new product ID (leave blank to keep current: " + p.id + "): ");
-            String idInput = scanner.nextLine().trim();
-            if (!idInput.isEmpty()) {
-                try {
-                    int newId = Integer.parseInt(idInput);
-
-                    // validate id
-                    if (newId < 0) {
-                        System.out.println("> ID cannot be negative, keeping previous value.");
-                    } else if (String.valueOf(newId).length() > 8) {
-                        System.out.println("> ID cannot have more than 8 digits, keeping previous value.");
-                    } else {
-                        // check for duplicate id
-                        boolean duplicate = false;
-                        for (Product existing : inventory) {
-                            if (existing != p && existing.id == newId) {
-                                duplicate = true;
-                                break;
-                            }
-                        }
-                        if (duplicate) {
-                            System.out.println("> ID already exists, keeping previous value.");
-                        } else {
-                            p.id = newId; // update id
-                        }
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("> Invalid input, keeping previous ID.");
-                }
-            }
-
             System.out.println("> Product updated successfully!");
 
         } catch (Exception e) {
             System.out.println("> Unexpected error while editing product: " + e.getMessage());
+        }
+    }
+
+    // import .csv files
+    public void importCSV(String filename) {
+        try {
+            ArrayList<Product> products = CSVReader.readFile(filename);
+
+            clearInventory();
+
+            // adding products in the inventory
+            for (Product p : products) {
+                addProduct(p, p.id);
+            }
+
+            System.out.println("> Import completed.");
+
+        } catch (Exception e) {
+
+            System.out.println("> Error importing file: " + e.getMessage());
+        }
+    }
+
+    // export .csv file
+    public void exportCSV(String path) {
+        try {
+            // placeholder for CSV export logic
+            System.out.println("> Exporting inventory to CSV: " + path);
+            System.out.println("> (CSV export not implemented yet)");
+
+        } catch (Exception e) {
+            System.out.println("> Unexpected error while exporting CSV: " + e.getMessage());
         }
     }
 }
