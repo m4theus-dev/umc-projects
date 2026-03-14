@@ -1,5 +1,5 @@
 // array-based inventory system
-// v1.7
+// v1.71
 // @m4theus-dev
 
 // IMPORTS
@@ -22,7 +22,7 @@ public class Main {
         // main loop for menu
         while (true) {
             // display main menu header
-            System.out.println("> - Array-Based Inventory System (v1.7) - <");
+            System.out.println("> - Array-Based Inventory System (v1.71) - <");
             System.out.println("> - Dev: m4theus-dev - <");
 
             // display pages
@@ -238,7 +238,7 @@ public class Main {
 
                             if (confirmAction(scanner, "export the inventory")) {
 
-                                inventoryManager.exportCSV(filename);
+                                inventoryManager.exportCSV(filename, scanner);
 
                             } else {
                                 System.out.println("> Action cancelled.");

@@ -227,14 +227,20 @@ public class InventoryManager {
     }
 
     // export .csv file
-    public void exportCSV(String path) {
-        try {
-            // placeholder for CSV export logic
-            System.out.println("> Exporting inventory to CSV: " + path);
-            System.out.println("> (CSV export not implemented yet)");
+    public void exportCSV(String filename, Scanner scanner) {
+        // prevent exporting empty inventories
+        if (inventory.isEmpty()) {
+            System.out.println("> Inventory is empty. Nothing to export.");
+            return;
+        }
 
+        try {
+            // call csvreader to handle file writing
+            CSVReader.exportFile(filename, inventory, scanner);
+
+            System.out.println("> Export completed.");
         } catch (Exception e) {
-            System.out.println("> Unexpected error while exporting CSV: " + e.getMessage());
+            System.out.println("> Error exporting CSV: " + e.getMessage());
         }
     }
 }
