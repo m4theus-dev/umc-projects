@@ -1,0 +1,18 @@
+# compiled java files
+*.class
+
+# ide files
+.idea/
+.vscode/
+
+# build folders
+bin/
+out/
+target/
+
+# save files
+saves/
+
+# os junk
+.DS_Store
+Thumbs.db

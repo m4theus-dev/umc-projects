@@ -1,5 +1,5 @@
 // array-based inventory system
-// v1.71
+// v1.73
 // @m4theus-dev
 
 // IMPORTS
@@ -22,7 +22,7 @@ public class Main {
         // main loop for menu
         while (true) {
             // display main menu header
-            System.out.println("> - Array-Based Inventory System (v1.71) - <");
+            System.out.println("> - Array-Based Inventory System (v1.73) - <");
             System.out.println("> - Dev: m4theus-dev - <");
 
             // display pages
@@ -273,26 +273,65 @@ public class Main {
 
                             File[] files = CSVReader.listSaveFiles();
 
+                            // check if there are no save files
                             if (files == null || files.length == 0) {
                                 System.out.println("> No save files to delete.");
                                 waitForEnter(scanner);
                                 break;
                             }
 
+                            // show list of save files
                             System.out.println("\n> Save files:");
 
                             for (int i = 0; i < files.length; i++) {
                                 System.out.println("> " + i + " | " + files[i].getName());
                             }
 
-                            int deleteIndex = readInt(scanner, "\nSelect file index to delete: ");
+                            // ask user which file to delete (-1 means delete all)
+                            int deleteIndex = readInt(scanner, "\nSelect file index to delete (-1 to delete all): ");
 
-                            if (deleteIndex < 0 || deleteIndex >= files.length) {
+                            // validate index
+                            if (deleteIndex < -1 || deleteIndex >= files.length) {
                                 System.out.println("> Invalid index.");
                                 waitForEnter(scanner);
                                 break;
                             }
 
+                            // if user chose -1, delete all files
+                            if (deleteIndex == -1) {
+
+                                // extreme confirmation warning
+                                System.out.println("\n> WARNING: This will permanently delete ALL save files.");
+                                System.out.print("> Type 'confirm' to proceed: ");
+
+                                scanner.nextLine(); // consume newline
+                                String confirm = scanner.nextLine();
+
+                                if (confirm.equalsIgnoreCase("confirm")) {
+
+                                    int deletedCount = 0;
+
+                                    // iterate through every file and delete it
+                                    for (File f : files) {
+
+                                        if (f.delete()) {
+                                            deletedCount++;
+                                        }
+                                    }
+
+                                    System.out.println("> " + deletedCount + " file(s) deleted.");
+
+                                } else {
+
+                                    System.out.println("> Operation cancelled.");
+
+                                }
+
+                                waitForEnter(scanner);
+                                break;
+                            }
+
+                            // normal single file delete
                             if (confirmAction(scanner, "delete this file")) {
 
                                 if (files[deleteIndex].delete()) {
@@ -302,11 +341,14 @@ public class Main {
                                 }
 
                             } else {
+
                                 System.out.println("> Action cancelled.");
+
                             }
 
                             waitForEnter(scanner);
                             break;
+
                         case 5:
                             // back to main menu
                             break;
