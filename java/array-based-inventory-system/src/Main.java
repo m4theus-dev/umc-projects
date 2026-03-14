@@ -1,10 +1,12 @@
 // array-based inventory system
-// v1.6
+// v1.7
 // @m4theus-dev
 
 // IMPORTS
 import java.util.Scanner;
 import java.util.InputMismatchException;
+import java.io.File;
+import java.io.IOException;
 
 public class Main {
 
@@ -20,7 +22,7 @@ public class Main {
         // main loop for menu
         while (true) {
             // display main menu header
-            System.out.println("> - Array-Based Inventory System (v1.6) - <");
+            System.out.println("> - Array-Based Inventory System (v1.7) - <");
             System.out.println("> - Dev: m4theus-dev - <");
 
             // display pages
@@ -28,7 +30,8 @@ public class Main {
             System.out.println("> 1 | Stock Management");
             System.out.println("> 2 | Product Management");
             System.out.println("> 3 | Inventory Monitoring");
-            System.out.println("> 4 | Exit");
+            System.out.println("> 4 | Files");
+            System.out.println("> 5 | Exit");
 
             // read main menu input safely
             index1 = readInt(scanner, "\nInput: ");
@@ -172,6 +175,147 @@ public class Main {
                     break;
 
                 case 4:
+                    // file management page
+                    System.out.println("\n> - Files - <");
+                    System.out.println("\n> * OPTIONS *\n");
+                    System.out.println("> 1 | Import save file");
+                    System.out.println("> 2 | Export save file");
+                    System.out.println("> 3 | List save files");
+                    System.out.println("> 4 | Delete save file(s)");
+                    System.out.println("> 5 | Back to Main Menu");
+
+                    index2 = readInt(scanner, "\nInput: ");
+
+                    switch (index2) {
+                        case 1:
+                            // import save file
+
+                            // get list of save files from csvreader
+                            File[] saves = CSVReader.listSaveFiles();
+
+                            // check if there are no save files
+                            if (saves == null || saves.length == 0) {
+                                System.out.println("> No save files found.");
+                                waitForEnter(scanner);
+                                break;
+                            }
+
+                            // show list of files
+                            System.out.println("\n> Available save files:");
+
+                            for (int i = 0; i < saves.length; i++) {
+                                System.out.println("> " + i + " | " + saves[i].getName());
+                            }
+
+                            int fileIndex = readInt(scanner, "\nSelect file index: ");
+
+                            // validate index
+                            if (fileIndex < 0 || fileIndex >= saves.length) {
+                                System.out.println("> Invalid file index.");
+                                waitForEnter(scanner);
+                                break;
+                            }
+
+                            // confirm import
+                            if (confirmAction(scanner, "import this file")) {
+
+                                inventoryManager.importCSV(saves[fileIndex].getName());
+
+                            } else {
+                                System.out.println("> Action cancelled.");
+                            }
+
+                            waitForEnter(scanner);
+                            break;
+
+                        case 2:
+                            // export save file
+
+                            // ask for file name
+                            System.out.print("Enter file name (leave blank for automatic name): ");
+                            scanner.nextLine(); // consume newline
+                            String filename = scanner.nextLine().trim();
+
+                            if (confirmAction(scanner, "export the inventory")) {
+
+                                inventoryManager.exportCSV(filename);
+
+                            } else {
+                                System.out.println("> Action cancelled.");
+                            }
+
+                            waitForEnter(scanner);
+                            break;
+
+                        case 3:
+                            // list save files
+
+                            File[] saveList = CSVReader.listSaveFiles();
+
+                            if (saveList == null || saveList.length == 0) {
+
+                                System.out.println("> No save files found.");
+
+                            } else {
+
+                                System.out.println("\n> Save files:");
+
+                                for (int i = 0; i < saveList.length; i++) {
+                                    System.out.println("> " + i + " | " + saveList[i].getName());
+                                }
+                            }
+
+                            waitForEnter(scanner);
+                            break;
+
+                        case 4:
+                            // delete save file
+
+                            File[] files = CSVReader.listSaveFiles();
+
+                            if (files == null || files.length == 0) {
+                                System.out.println("> No save files to delete.");
+                                waitForEnter(scanner);
+                                break;
+                            }
+
+                            System.out.println("\n> Save files:");
+
+                            for (int i = 0; i < files.length; i++) {
+                                System.out.println("> " + i + " | " + files[i].getName());
+                            }
+
+                            int deleteIndex = readInt(scanner, "\nSelect file index to delete: ");
+
+                            if (deleteIndex < 0 || deleteIndex >= files.length) {
+                                System.out.println("> Invalid index.");
+                                waitForEnter(scanner);
+                                break;
+                            }
+
+                            if (confirmAction(scanner, "delete this file")) {
+
+                                if (files[deleteIndex].delete()) {
+                                    System.out.println("> File deleted.");
+                                } else {
+                                    System.out.println("> Failed to delete file.");
+                                }
+
+                            } else {
+                                System.out.println("> Action cancelled.");
+                            }
+
+                            waitForEnter(scanner);
+                            break;
+                        case 5:
+                            // back to main menu
+                            break;
+                        default:
+                            System.out.println("> Invalid option! Returning to main menu.");
+                    }
+                    break;
+
+                case 5:
                     System.out.println("\n> - Exiting...");
                     scanner.close();
                     return;
