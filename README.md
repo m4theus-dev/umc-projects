@@ -11,7 +11,7 @@ Each folder contains small projects focused on practicing programming fundamenta
 * data structures
 * object-oriented programming
 
-## Languages Used
+## Languages Used:
 * Java
 * Python
 * C#
